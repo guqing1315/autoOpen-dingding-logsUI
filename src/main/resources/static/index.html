@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>打卡结果</title>
+</head>
+<body>
+<h1>打卡结果</h1>
+<div id="phoneInfo"></div>
+<table id="tableId" >
+</table>
+</body>
+</html>
+<script src="jq.js"></script>
+<script>
+
+    $.ajax({
+        type: "get", // 提交方式
+        dataType: "json",
+        contentType: "application/x-www-form-urlencoded",
+        url: "http://101.42.44.22:8081/logs/queryPhone", // 访问路径
+        success(data) { // 成功调用的回调函数
+
+              let  str1 = '<span>手机型号：' +data[0].phone_type + '</span>'
+                    + '<span>系统版本：' +data[0].sysver + '</span>'
+                    + '<span>更新时间：' +data[0].update_time + '</span>'
+                    + '<span>充电状态：' +data[0].charging + '</span>'
+                  + '<span>电池状态：' +data[0].battery_status + '%</span>';
+            $('#phoneInfo').html(str1);
+        },
+
+    })
+
+    $.ajax({
+        type: "get", // 提交方式
+        dataType: "json",
+        contentType: "application/x-www-form-urlencoded",
+        url: "http://101.42.44.22:8081/logs/queryList", // 访问路径
+        success(data) { // 成功调用的回调函数
+            var str = "  <tr>\n" +
+                "        <td>序号</td>\n" +
+                "        <td>开始时间</td>\n" +
+                "        <td>结束时间</td>\n" +
+                "        <td>操作日志</td>\n" +
+                "        <td>打卡图片</td>\n" +
+                "    </tr>";
+            for (let i = 0; i < data.length; i++) {
+                str += '<tr>'
+                    + '<td>' + (i+1) + '</td>'
+                    + '<td>' + data[i].start_time + '</td>'
+                    + '<td>' + data[i].end_time + '</td>'
+                    + '<td>' + data[i].log_str + '</td>'
+                    + '<td> <img style="width: 200px;height: 350px" src="data:image/png;base64,' + data[i].daka_img + '"/></td>'
+                    + '</tr>'
+            }
+            ;
+            $('#tableId').html(str);
+        },
+
+    })
+
+
+</script>
+
+<style>
+    table{
+        margin-top: 10px;
+        border-collapse: collapse;
+    }
+    tr{
+        border: 1px solid blue;
+    }
+    td{
+        border-right: 1px solid blue;
+    }
+    span{
+        margin-left: 20px;
+        font-weight: bolder;
+    }
+</style>

@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.autoopendingdinglogsui.LogsMapper">
-    <select id="queryList " resultMap="List" >
-        select * from run_time_log
+<mapper namespace="com.example.autoopendingdinglogsui.mapper.LogsMapper">
+    <select id="queryList" resultType="Map" >
+        select * from run_time_log ORDER BY start_time DESC
     </select>
-
+    <select id="queryPhone" resultType="Map" >
+        select * from device_info
+    </select>
 
 </mapper>
